@@ -1,0 +1,27 @@
+{
+    "name": "SimplePHPCasClient",
+    "description": "PHP Cas Client组件",
+    "keywords": [
+        "cas client",
+        "php"
+    ],
+    "homepage": "https://github.com/Code-Ken/SimplePHPCasClient",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ken",
+            "email": "gaosong0301@foxmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "php-curl-class/php-curl-class": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SimplePHPCasClient\\": "src/"
+        }
+    }
+}
