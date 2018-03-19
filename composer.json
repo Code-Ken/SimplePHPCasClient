@@ -1,5 +1,5 @@
 {
-    "name": "CodeKen/SimplePHPCasClient",
+    "name": "code-ken/simple-php-cas-client",
     "description": "PHP Cas Client组件",
     "keywords": [
         "cas client",
