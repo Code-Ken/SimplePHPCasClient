@@ -4,6 +4,7 @@ SimplePHPCasClient
 ![](https://img.shields.io/travis/php-v/symfony/symfony.svg)
 ![](https://img.shields.io/teamcity/codebetter/bt428.svg)
 ![](https://img.shields.io/readthedocs/pip/stable.svg)
+![](https://img.shields.io/dub/l/vibe-d.svg)
 
 [中文文档](doc/README_CN.md)
 

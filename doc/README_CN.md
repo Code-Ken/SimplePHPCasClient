@@ -4,6 +4,7 @@ SimplePHPCasClient
 ![](https://img.shields.io/travis/php-v/symfony/symfony.svg)
 ![](https://img.shields.io/teamcity/codebetter/bt428.svg)
 ![](https://img.shields.io/readthedocs/pip/stable.svg)
+![](https://img.shields.io/dub/l/vibe-d.svg)
 
 
 SimplePHPCasClient 是让PHP程序访问CAS服务的一个SDK.
