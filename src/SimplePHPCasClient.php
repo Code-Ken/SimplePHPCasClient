@@ -51,7 +51,6 @@ class SimplePHPCasClient
         $curl->get($validate_url);
 
         if ($curl->curlErrorCode != 0) throw new SimplePHPCasException($curl->curlErrorMessage, SimplePHPCasException::CODE_HTTP_ERROR);
-        var_dump($curl->rawResponse);die;
         $response_arr = json_decode($curl->rawResponse, true);
 
 
