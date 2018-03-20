@@ -25,4 +25,10 @@ interface TicketInterface
      * @return bool
      */
     public function checkTicket(string $ticket): bool;
+
+    /**
+     * @param string $ticket
+     * @return array
+     */
+    public function getTicket(string $ticket): array;
 }
