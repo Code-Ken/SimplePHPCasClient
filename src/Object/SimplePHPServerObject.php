@@ -2,7 +2,7 @@
 
 namespace SimplePHPCasClient\Object;
 
-use SimplePHPCasClient\SimplePHPCasException;
+use SimplePHPCasClient\Exception\SimplePHPCasException;
 use SimplePHPCasClient\Util\SimplePHPServerUtil;
 
 class SimplePHPServerObject

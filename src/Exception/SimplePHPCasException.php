@@ -1,6 +1,6 @@
 <?php
 
-namespace SimplePHPCasClient;
+namespace SimplePHPCasClient\Exception;
 
 class SimplePHPCasException extends \RuntimeException
 {
