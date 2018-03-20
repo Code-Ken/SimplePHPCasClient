@@ -4,37 +4,72 @@ namespace SimplePHPCasClient;
 
 use Curl\Curl;
 use SimplePHPCasClient\Object\SimplePHPServerObject;
+use SimplePHPCasClient\Exception\SimplePHPCasException;
 
+
+/**
+ * Class SimplePHPCasClient
+ * @package SimplePHPCasClient
+ * @author gaosong0301@foxmail.com
+ */
 class SimplePHPCasClient
 {
 
+    /**
+     * @var SimplePHPServerObject
+     */
     public $serverObject;
 
+    /**
+     * @var
+     */
     private $user;
+    /**
+     * @var
+     */
     private $attributes;
 
+    /**
+     * @var string
+     */
     private $failMsg = '';
 
+    /**
+     * SimplePHPCasClient constructor.
+     * @param SimplePHPServerObject $serverObject
+     */
     public function __construct(SimplePHPServerObject $serverObject)
     {
         $this->serverObject = $serverObject;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->user;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * @return string
+     */
     public function getLocationLoginUrl(): string
     {
         return $this->serverObject->getServerLoginURL();
     }
 
+    /**
+     *Location to login page
+     */
     public function locationLoginUrl()
     {
         $login_url = $this->getLocationLoginUrl();
@@ -42,6 +77,10 @@ class SimplePHPCasClient
         exit;
     }
 
+    /**
+     * @return bool
+     * @throws SimplePHPCasException
+     */
     public function checkTicket()
     {
         $validate_url = $this->serverObject->getServerValidateURL();
