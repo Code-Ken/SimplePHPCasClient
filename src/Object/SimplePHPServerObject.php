@@ -48,6 +48,10 @@ class SimplePHPServerObject
     /**
      * @var string
      */
+    protected $serverLogoutURI = 'logout';
+    /**
+     * @var string
+     */
     protected $serverValidateURI = 'serviceValidate';
     /**
      * @var string
@@ -66,6 +70,11 @@ class SimplePHPServerObject
      * @var string
      */
     private $serverValidateURL = '';
+
+    /**
+     * @var string
+     */
+    private $serverLogoutURL = '';
     /**
      * @var float
      */
@@ -160,9 +169,27 @@ class SimplePHPServerObject
     /**
      * @return string
      */
-    public function getServerLoginURI()
+    public function getServerLoginURI(): string
     {
         return $this->serverLoginURI;
+    }
+
+    /**
+     * @param string $logout_uri
+     * @return SimplePHPServerObject
+     */
+    public function setServerLogoutURI(string $logout_uri): SimplePHPServerObject
+    {
+        $this->serverLogoutURI = $logout_uri;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServerLogoutURI(): string
+    {
+        return $this->serverLogoutURI;
     }
 
     /**
@@ -213,6 +240,19 @@ class SimplePHPServerObject
 
         return SimplePHPServerUtil::buildQueryURL($this->serverLoginURL, $query_arr);
     }
+
+    /**
+     * @return string
+     */
+    public function getServerLogoutURL(): string
+    {
+        $this->serverLogoutURL = $this->getServerBaseURL() . '/' . $this->serverLogoutURI;
+
+        $query_arr = [];
+        if (!empty($this->locationService)) $query_arr['service'] = $this->locationService;
+        return SimplePHPServerUtil::buildQueryURL($this->serverLogoutURL, $query_arr);
+    }
+
 
     /**
      * @return string

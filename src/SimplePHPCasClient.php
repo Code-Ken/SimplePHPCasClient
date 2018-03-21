@@ -78,6 +78,24 @@ class SimplePHPCasClient
     }
 
     /**
+     * @return string
+     */
+    public function getLocationLogoutUrl()
+    {
+        return $this->serverObject->getServerLogoutURL();
+    }
+
+    /**
+     *Location to logout page
+     */
+    public function locationLogoutUrl()
+    {
+        $login_url = $this->getLocationLogoutUrl();
+        header('Location:' . $login_url);
+        exit;
+    }
+
+    /**
      * @return bool
      * @throws SimplePHPCasException
      */
