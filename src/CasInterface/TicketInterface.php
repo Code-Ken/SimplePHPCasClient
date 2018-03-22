@@ -34,5 +34,11 @@ interface TicketInterface
      * @param string $ticket
      * @return array
      */
-    public function getTicket(string $ticket): array;
+    public function getTicketInfo(string $ticket): array;
+
+    /**
+     * @return string
+     */
+    public function getTicket(): string;
+
 }
