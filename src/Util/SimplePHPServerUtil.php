@@ -22,15 +22,4 @@ class SimplePHPServerUtil
         $query_str = rtrim($query_str, '&');
         return $url . '?' . $query_str;
     }
-
-    /**
-     * @param string $xml
-     * @return string
-     */
-    public static function getTicketFromLogoutXML(string $xml): string
-    {
-        preg_match('/(?<=\<samlp\:SessionIndex\>).*?(?=\<\/samlp\:SessionIndex\>)/', $xml, $arr);
-        return current($arr);
-    }
-
 }

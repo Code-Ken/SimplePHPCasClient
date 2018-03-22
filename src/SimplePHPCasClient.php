@@ -124,4 +124,18 @@ class SimplePHPCasClient
         return true;
     }
 
+    /**
+     * @param string $xml
+     * @return string
+     */
+    public static function getTicketFromLogoutXML(string $xml = ''): string
+    {
+        if (empty($xml)) $xml = $_REQUEST['logoutRequest'];
+
+        preg_match('/(?<=\<samlp\:SessionIndex\>).*?(?=\<\/samlp\:SessionIndex\>)/', $xml, $arr);
+        $ticket = current($arr);
+        if (empty($ticket)) throw new SimplePHPCasException('获取ticket失败!', SimplePHPCasException::CODE_PARAMS_ERROR);
+        return $ticket;
+    }
+
 }
