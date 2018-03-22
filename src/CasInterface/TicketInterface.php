@@ -13,32 +13,32 @@ interface TicketInterface
      * @param string $ticket
      * @return bool
      */
-    public function invalidTicket(string $ticket): bool;
+    public static function invalidTicket(string $ticket): bool;
 
     /**
      * We need to save the ticket as unique id when we login success;
      * @param string $ticket
      * @return bool
      */
-    public function saveTicket(string $ticket): bool;
+    public static function saveTicket(string $ticket): bool;
 
     /**
      * We need to check the ticket is valid When we get ticket form frontend
      * @param string $ticket
      * @return bool
      */
-    public function checkTicket(string $ticket): bool;
+    public static function checkTicket(string $ticket): bool;
 
     /**
      * We can get user info from ticket
      * @param string $ticket
      * @return array
      */
-    public function getTicketInfo(string $ticket): array;
+    public static function getTicketInfo(string $ticket): array;
 
     /**
      * @return string
      */
-    public function getTicket(): string;
+    public static function getTicket(): string;
 
 }
