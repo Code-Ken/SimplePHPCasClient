@@ -13,3 +13,11 @@ SimplePHPCasClient比[phpCAS](https://github.com/apereo/phpCAS)更好用一些
 
 但是SimplePHPCasClient只实现了最基础的登录功能,后续会逐渐完善
 
+## EXAMPLE
+
+[Login](example/login.php)
+
+[LogOut](example/logout.php)
+
+[LogOutCallBack](example/logout_callback.php)
+

@@ -14,3 +14,11 @@ SimplePHPCasClient is easier than [phpCAS](https://github.com/apereo/phpCAS).
 
 But SimplePHPCasClient only implements the simplest cas login function.Follow-up will gradually improve.
 
+## EXAMPLE
+
+[Login](doc/example/login.php)
+
+[LogOut](doc/example/logout.php)
+
+[LogOutCallBack](doc/example/logout_callback.php)
+
