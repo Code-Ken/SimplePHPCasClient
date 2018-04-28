@@ -5,6 +5,8 @@ namespace SimplePHPCasClient;
 use Curl\Curl;
 use SimplePHPCasClient\Object\SimplePHPServerObject;
 use SimplePHPCasClient\Exception\SimplePHPCasException;
+use Symfony\Component\HttpFoundation\Response;
+use Firebase\JWT\JWT;
 
 
 /**
@@ -20,6 +22,9 @@ class SimplePHPCasClient
      */
     public $serverObject;
 
+    public $jwt;
+
+    public $isValidJWT;
     /**
      * @var
      */
@@ -137,5 +142,42 @@ class SimplePHPCasClient
         if (empty($ticket)) throw new SimplePHPCasException('获取ticket失败!', SimplePHPCasException::CODE_PARAMS_ERROR);
         return $ticket;
     }
+
+    public function setJWT(string $jwt): void
+    {
+        $this->jwt = $jwt;
+    }
+
+    public function validJWT()
+    {
+        if (empty($this->jwt)) $this->setJWT(isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '');
+        if (empty($this->jwt)) return $this->isValidJWT = false;
+        $arr = explode('.', $this->jwt);
+        if (count($arr) != 3) return $this->isValidJWT = false;
+        $header = base64_decode($arr[0]);
+        var_dump($header);
+        $payload = base64_decode($arr[1]);
+        $signature = $arr[2];
+
+
+        var_dump($header);
+        var_dump($payload);
+        $n = '5y_tcYAjE9FmNcnpVIPfHlqL4nRKF_ZlFTL5x_QcVe4vmFXOe5CsFdqxt0lgBDfn1Y-6aISgzBAtvI9PRFZmnA';
+        var_dump(base64_decode($n));
+        $b = JWT::urlsafeB64Encode($header) . '.' . JWT::urlsafeB64Encode($payload);
+        $m = hash_hmac('sha512', $b, $n, true);
+        $m = base64_encode($m);
+        $m = strtr($m, '/+', '_-');
+        var_dump(str_replace('=', '', $m));
+        var_dump($signature);
+    }
+
+
+    private function verifySign()
+    {
+
+    }
+
+
 
 }
