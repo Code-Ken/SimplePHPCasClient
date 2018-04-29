@@ -17,6 +17,8 @@ SimplePHPCasClient比[phpCAS](https://github.com/apereo/phpCAS)更好用一些
 
 [Login](example/login.php)
 
+[Login](doc/example/login.php)
+
 [LogOut](example/logout.php)
 
 [LogOutCallBack](example/logout_callback.php)

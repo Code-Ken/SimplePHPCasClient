@@ -18,6 +18,8 @@ But SimplePHPCasClient only implements the simplest cas login function.Follow-up
 
 [Login](doc/example/login.php)
 
+[Login](doc/example/login.php)
+
 [LogOut](doc/example/logout.php)
 
 [LogOutCallBack](doc/example/logout_callback.php)
