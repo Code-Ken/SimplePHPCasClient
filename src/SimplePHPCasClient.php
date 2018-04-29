@@ -22,8 +22,23 @@ class SimplePHPCasClient
      */
     public $serverObject;
 
+    /**
+     * @var
+     */
     public $jwt;
 
+    /**
+     * @var
+     */
+    public $bitSecret;
+
+    /**
+     * @var
+     */
+    public $payLoad;
+    /**
+     * @var
+     */
     public $isValidJWT;
     /**
      * @var
@@ -143,41 +158,63 @@ class SimplePHPCasClient
         return $ticket;
     }
 
+    /**
+     * @param string $jwt
+     */
     public function setJWT(string $jwt): void
     {
         $this->jwt = $jwt;
     }
 
-    public function validJWT()
+    /**
+     * @param $secret
+     */
+    public function setBitSecret($secret): void
+    {
+        $this->bitSecret = $secret;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getPayLoad()
+    {
+        return $this->isValidJWT ? $this->payLoad : false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function validJWT(): bool
     {
         if (empty($this->jwt)) $this->setJWT(isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '');
         if (empty($this->jwt)) return $this->isValidJWT = false;
         $arr = explode('.', $this->jwt);
         if (count($arr) != 3) return $this->isValidJWT = false;
         $header = base64_decode($arr[0]);
-        var_dump($header);
         $payload = base64_decode($arr[1]);
         $signature = $arr[2];
 
+        $header_arr = json_decode($header, 1);
+        $data = JWT::urlsafeB64Encode($header) . '.' . JWT::urlsafeB64Encode($payload);
+        $alg = JWT::$supported_algs[strtoupper($header_arr['alg'])];
+        list($fun, $algo) = $alg;
+        $string_bit = call_user_func($fun, $algo, $data, $this->bitSecret, true);
+        $base64_str = base64_encode($string_bit);
+        $gen_signature = str_replace('=', '', strtr($base64_str, '/+', '_-'));
 
-        var_dump($header);
-        var_dump($payload);
-        $n = '5y_tcYAjE9FmNcnpVIPfHlqL4nRKF_ZlFTL5x_QcVe4vmFXOe5CsFdqxt0lgBDfn1Y-6aISgzBAtvI9PRFZmnA';
-        var_dump(base64_decode($n));
-        $b = JWT::urlsafeB64Encode($header) . '.' . JWT::urlsafeB64Encode($payload);
-        $m = hash_hmac('sha512', $b, $n, true);
-        $m = base64_encode($m);
-        $m = strtr($m, '/+', '_-');
-        var_dump(str_replace('=', '', $m));
-        var_dump($signature);
+        if ($this->isValidJWT = $gen_signature === $signature) $this->payLoad = json_decode(base64_decode($payload));
+        return $this->isValidJWT;
     }
 
-
-    private function verifySign()
+    /**
+     * http 401 response
+     */
+    public function unAuthResponse()
     {
-
+        header('HTTP/1.0 401 Unauthorized');
+        exit;
     }
-
-
 
 }
