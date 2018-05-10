@@ -35,7 +35,7 @@ class SimplePHPCasClient
     /**
      * @var
      */
-    public $payLoad;
+    public $payload;
     /**
      * @var
      */
@@ -180,7 +180,7 @@ class SimplePHPCasClient
      */
     public function getPayLoad()
     {
-        return $this->isValidJWT ? $this->payLoad : false;
+        return $this->isValidJWT ? $this->payload : false;
     }
 
     /**
@@ -204,7 +204,9 @@ class SimplePHPCasClient
         $base64_str = base64_encode($string_bit);
         $gen_signature = str_replace('=', '', strtr($base64_str, '/+', '_-'));
 
-        if ($this->isValidJWT = $gen_signature === $signature) $this->payLoad = json_decode(base64_decode($payload));
+        if ($this->isValidJWT = $gen_signature === $signature) $this->payload = json_decode(base64_decode($payload));
+        if (!isset($this->payload['exp']) || $this->payload['exp'] < time()) $this->isValidJWT = false;
+
         return $this->isValidJWT;
     }
 
