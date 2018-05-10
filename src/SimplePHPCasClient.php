@@ -121,6 +121,38 @@ class SimplePHPCasClient
      */
     public function checkTicket()
     {
+        $ticket = $this->serverObject->getTicket();
+        if (empty($ticket)) return false;
+        if ('ST-' == substr($ticket, 0, 3)) return $this->checkStTicket();
+        return $this->checkJwtTicket();
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkJwtTicket()
+    {
+        $validate_url = $this->serverObject->getServerValidateJwtURL();
+        var_dump($validate_url);
+        $curl = new Curl();
+        $curl->setOpt(CURLOPT_SSL_VERIFYHOST, false);
+        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+        $curl->get($validate_url);
+
+        if ($curl->curlErrorCode != 0) throw new SimplePHPCasException($curl->curlErrorMessage, SimplePHPCasException::CODE_HTTP_ERROR);
+        $response_arr = json_decode($curl->rawResponse, true);
+
+        if ($response_arr['code'] != 0) throw new SimplePHPCasException($response_arr['message'], $response_arr['message']);
+        $this->user = @$response_arr['data']['userNo'];
+        $this->attributes = @$response_arr['data'];
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkStTicket()
+    {
         $validate_url = $this->serverObject->getServerValidateURL();
         $curl = new Curl();
         $curl->setOpt(CURLOPT_SSL_VERIFYHOST, false);
@@ -143,6 +175,7 @@ class SimplePHPCasClient
         $this->attributes = $content['attributes'];
         return true;
     }
+
 
     /**
      * @param string $xml

@@ -53,6 +53,11 @@ class SimplePHPServerObject
      * @var string
      */
     protected $serverValidateURI = 'serviceValidate';
+
+    /**
+     * @var string
+     */
+    protected $serverValidateJwtURI = 'jwt/check';
     /**
      * @var string
      */
@@ -80,6 +85,10 @@ class SimplePHPServerObject
      */
     private $casProtocolVersion = self::CAS_VERSION_3_0;
 
+    /**
+     * @var
+     */
+    private $ticket;
 
     /**
      * @return float
@@ -95,7 +104,7 @@ class SimplePHPServerObject
      */
     public function setServerHostName(string $host_name): SimplePHPServerObject
     {
-        $this->serverHostName = trim(trim(trim($host_name, '/'), 'https://'), 'http://');
+        $this->serverHostName = ltrim(ltrim(rtrim($host_name, '/'), 'https://'), 'http://');
         return $this;
     }
 
@@ -211,6 +220,24 @@ class SimplePHPServerObject
     }
 
     /**
+     * @param string $validate_jwt_uri
+     * @return SimplePHPServerObject
+     */
+    public function setServerValidateJwtURI(string $validate_jwt_uri): SimplePHPServerObject
+    {
+        $this->serverValidateJwtURI = $validate_jwt_uri;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServerValidateJwtURI()
+    {
+        return $this->serverValidateJwtURI;
+    }
+
+    /**
      * @param string $location_service
      * @return SimplePHPServerObject
      */
@@ -259,14 +286,27 @@ class SimplePHPServerObject
      */
     public function getServerValidateURL(): string
     {
-        $this->serverValidateURL = $this->getServerBaseURL() . '/' . $this->serverValidateURI;
+        $this->serverValidateURL = $this->getServerBaseURL() . '/' . $this->getServerValidateURI();
         $query_arr = [
-            'ticket'  => $_GET['ticket'],
+            'ticket'  => $this->getTicket(),
             'service' => $this->locationService,
             'format'  => $this->formatter,
         ];
         return SimplePHPServerUtil::buildQueryURL($this->serverValidateURL, $query_arr);
     }
+
+    /**
+     * @return string
+     */
+    public function getServerValidateJwtURL(): string
+    {
+        $this->serverValidateURL = $this->getServerBaseURL() . '/' . $this->getServerValidateJwtURI();
+        $query_arr = [
+            'jwt' => $this->getTicket(),
+        ];
+        return SimplePHPServerUtil::buildQueryURL($this->serverValidateURL, $query_arr);
+    }
+
 
     /**
      * @throws SimplePHPCasException
@@ -276,5 +316,27 @@ class SimplePHPServerObject
         if (empty($this->serverHostName)) throw new SimplePHPCasException('请设置serverHostName', SimplePHPCasException::CODE_PARAMS_ERROR);
         if ($this->serverHostPort <= 0) throw new SimplePHPCasException('serverHostPort必须大于0', SimplePHPCasException::CODE_PARAMS_ERROR);
         if (empty($this->locationService)) throw new SimplePHPCasException('请设置locationService', SimplePHPCasException::CODE_PARAMS_ERROR);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTicket()
+    {
+        if (!empty($this->ticket)) return $this->ticket;
+        if (!empty($_GET['ticket'])) return $_GET['ticket'];
+        if (!empty($_POST['ticket'])) return $_POST['ticket'];
+        if (!empty($_SERVER['ticket'])) return $_SERVER['ticket'];
+        if (!empty($_REQUEST['ticket'])) return $_REQUEST['ticket'];
+        return '';
+    }
+
+    /**
+     * @param $ticket
+     */
+    public function setTicket($ticket)
+    {
+        $this->ticket = $ticket;
     }
 }
