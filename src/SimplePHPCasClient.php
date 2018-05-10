@@ -133,7 +133,6 @@ class SimplePHPCasClient
     private function checkJwtTicket()
     {
         $validate_url = $this->serverObject->getServerValidateJwtURL();
-        var_dump($validate_url);
         $curl = new Curl();
         $curl->setOpt(CURLOPT_SSL_VERIFYHOST, false);
         $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
