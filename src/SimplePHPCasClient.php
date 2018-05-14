@@ -142,10 +142,12 @@ class SimplePHPCasClient
         $response_arr = json_decode($curl->rawResponse, true);
 
         if ($response_arr['code'] != 0) throw new SimplePHPCasException($response_arr['message'], $response_arr['message']);
-        $this->user = @$response_arr['data']['userNo'];
-        $this->attributes = @$response_arr['data'];
-        return false;
+
+        $this->user = $response_arr['data']['sub'];
+        $this->attributes = $response_arr['data']['attributes'];
+        return true;
     }
+
 
     /**
      * @return bool

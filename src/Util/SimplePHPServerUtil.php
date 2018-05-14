@@ -13,7 +13,7 @@ class SimplePHPServerUtil
      * @param array $query
      * @return string
      */
-    public static function buildQueryURL(string $url, array $query): string
+    public static function buildQueryURL(string $url, array $query)
     {
         $query_str = '';
         foreach ($query as $k => $v) {
